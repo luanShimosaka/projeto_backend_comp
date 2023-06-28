@@ -1,0 +1,1213 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Projeto Trainee Backend - API",
+    "description": "Projeto para capacitação trainee de backend, com o objetivo de criar uma API para gerenciar projetos e tarefas."
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "User",
+      "description": "Rota de usuário"
+    },
+    {
+      "name": "Task",
+      "description": "Rota de tarefas"
+    },
+    {
+      "name": "Project",
+      "description": "Rota de projetos"
+    },
+    {
+      "name": "Images",
+      "description": "Rotas de imagens"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "bearer_token": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT",
+      "name": "bearer_token",
+      "in": "header"
+    }
+  },
+  "consumes": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/images/{path}/{filename}": {
+      "get": {
+        "tags": [
+          "Images"
+        ],
+        "description": "Endpoint para retornar uma imagem",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Erro ao encontrar imagem."
+          }
+        }
+      }
+    },
+    "/project": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para retornar todos os projetos não concluídos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Projetos encontrados."
+          },
+          "400": {
+            "description": "Erro ao encontrar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para cadastrar um projeto",
+        "parameters": [
+          {
+            "name": "name, description, client, deadline, tasks, squad",
+            "description": "Dados do projeto.",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "client": {
+                  "example": "any"
+                },
+                "deadline": {
+                  "example": "any"
+                },
+                "tasks": {
+                  "example": "any"
+                },
+                "squad": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Projeto e pastas criado com sucesso."
+          },
+          "400": {
+            "description": "Erro ao criar projeto e pastas."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/project/{projectId}": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para retornar um projeto",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Projeto encontrado."
+          },
+          "400": {
+            "description": "Erro ao encontrar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para atualizar um projeto",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "client": {
+                  "example": "any"
+                },
+                "deadline": {
+                  "example": "any"
+                },
+                "tasks": {
+                  "example": "any"
+                },
+                "squad": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Projeto alterado com sucesso."
+          },
+          "400": {
+            "description": "Erro ao atualizar projeto."
+          },
+          "404": {
+            "description": "Erro ao encontrar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para excluir um projeto",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Projeto deletado com sucesso."
+          },
+          "400": {
+            "description": "Erro remover projeto."
+          },
+          "404": {
+            "description": "Erro ao encontrar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/project/featured-image/{projectId}": {
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para cadastrar uma imagem de destaque do projeto",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Imagem enviada com sucesso."
+          },
+          "400": {
+            "description": "Erro ao enviar imagem."
+          },
+          "500": {
+            "description": "Erro ao enviar imagem."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para excluir a imagem de destaque do projeto",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Imagem deletada com sucesso."
+          },
+          "400": {
+            "description": "Erro ao encontrar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/project/files/{projectId}": {
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para cadastrar arquivos do projeto",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Arquivo enviado com sucesso."
+          },
+          "404": {
+            "description": "Erro ao encontrar projeto."
+          },
+          "500": {
+            "description": "Erro ao enviar arquivo."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/project/complete/{projectId}": {
+      "put": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para concluir um projeto",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Projeto concluído com sucesso."
+          },
+          "400": {
+            "description": "Erro ao atualizar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/project/{projectId}/{fileName}": {
+      "delete": {
+        "tags": [
+          "Project"
+        ],
+        "description": "Endpoint para excluir um arquivo do projeto",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          },
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Nome do arquivo."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Arquivo deletado com sucesso."
+          },
+          "400": {
+            "description": "Erro ao encontrar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/task/{projectId}": {
+      "get": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para retornar todas as tarefas de um projeto.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefa criada com sucesso."
+          },
+          "400": {
+            "description": "Erro ao criar a tarefa."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para criar uma tarefa",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do projeto que a tarefa pertence."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "category": {
+                  "example": "any"
+                },
+                "deadline": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefa criada com sucesso."
+          },
+          "400": {
+            "description": "Erro ao criar tarefa."
+          },
+          "404": {
+            "description": "Erro ao encontrar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/task/{taskId}": {
+      "get": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para retornar uma tarefa.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da tarefa."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefas encontradas com sucesso."
+          },
+          "400": {
+            "description": "Erro ao obter tarefa."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para atualizar uma tarefa.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da tarefa."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "category": {
+                  "example": "any"
+                },
+                "deadline": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefa atualizada com sucesso."
+          },
+          "400": {
+            "description": "Erro ao atualizar tarefa."
+          },
+          "404": {
+            "description": "Erro ao encontrar tarefa."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para excluir uma tarefa.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da terfa."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefa removida com sucesso."
+          },
+          "400": {
+            "description": "Erro ao remover tarefa."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/task/featured-image/{taskId}": {
+      "post": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para cadastrar uma imagem de destaque da tarefa",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da tarefa."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Imagem enviada com sucesso."
+          },
+          "400": {
+            "description": "Erro ao enviar imagem."
+          },
+          "500": {
+            "description": "Erro ao enviar imagem."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para excluir a imagem de destaque da tarefa",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da tarefa."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Imagem removida com sucesso."
+          },
+          "400": {
+            "description": "Erro ao remover imagem."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/task/files/{taskId}": {
+      "post": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para cadastrar arquivos da tarefa.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da tarefa."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Arquivo enviado com sucesso."
+          },
+          "404": {
+            "description": "Erro ao encontrar tarefa."
+          },
+          "500": {
+            "description": "Erro ao enviar arquivo."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/task/complete/{taskId}": {
+      "put": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para concluir uma tarefa.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da tarefa."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefa concluída com sucesso."
+          },
+          "400": {
+            "description": "Erro ao concluir tarefa."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/task/{taskId}/{fileName}": {
+      "delete": {
+        "tags": [
+          "Task"
+        ],
+        "description": "Endpoint para excluir o arquivo de uma tarefa.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID da tarefa."
+          },
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Nome do arquivo."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarefa removida com sucesso."
+          },
+          "400": {
+            "description": "Erro ao remover tarefa."
+          },
+          "404": {
+            "description": "Erro ao encontrar projeto."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para cadastrar um usuário",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário criado com sucesso."
+          },
+          "400": {
+            "description": "Erro ao registrar usuário."
+          },
+          "500": {
+            "description": "Erro ao consutar banco de dados."
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para logar um usuário",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Senha inválida."
+          },
+          "404": {
+            "description": "Usuário não encontrado."
+          },
+          "500": {
+            "description": "Erro ao logar."
+          }
+        }
+      }
+    },
+    "/user/forgot-password": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para recuperar a senha de um usuário",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Erro ao enviar email de recuperação de senha."
+          },
+          "404": {
+            "description": "Erro ao encontrar usuário."
+          },
+          "500": {
+            "description": "Erro no esqueci minha senha."
+          }
+        }
+      }
+    },
+    "/user/reset-password": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para resetar a senha de um usuário",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "token": {
+                  "example": "any"
+                },
+                "newPassword": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Senha alterada com sucesso."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Usuário não encontrado."
+          },
+          "500": {
+            "description": "Erro ao resetar senha."
+          }
+        }
+      }
+    },
+    "/user/userImage/{userId}": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para adicionar uma imagem a um usuário",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Imagem registrada com sucesso."
+          },
+          "400": {
+            "description": "Erro ao registrar imagem do usuário."
+          },
+          "500": {
+            "description": "Erro ao registrar imagem do usuário."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/user/turn-moderator": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para tornar um usuário moderador",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário moderador alterado com sucesso."
+          },
+          "404": {
+            "description": "Usuário não encontrado."
+          },
+          "500": {
+            "description": "Erro ao tornar usuário moderador."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/user/delete/{userId}": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para deletar um usuário",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário removido com sucesso."
+          },
+          "400": {
+            "description": "Erro ao remover usuário."
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "user": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Usuário 1"
+        },
+        "email": {
+          "type": "string",
+          "example": "email@compjuinior.com.br"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        },
+        "passwordResetToken": {
+          "type": "string",
+          "example": "123456"
+        },
+        "passwordResetTokenExpiration": {
+          "type": "string",
+          "example": "2021-08-31T00:00:00.000Z"
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "example": false
+        },
+        "isMod": {
+          "type": "boolean",
+          "example": false
+        },
+        "image": {
+          "type": "string",
+          "example": "https://i.imgur.com/1.jpg"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-08-31T00:00:00.000Z"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "password"
+      ]
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Projeto 1"
+        },
+        "description": {
+          "type": "string",
+          "example": "Descrição do projeto 1"
+        },
+        "client": {
+          "type": "string",
+          "example": "Cliente 1"
+        },
+        "deadline": {
+          "type": "string",
+          "example": "2021-08-31T00:00:00.000Z"
+        },
+        "featuredImage": {
+          "type": "string",
+          "example": "https://i.imgur.com/1.jpg"
+        },
+        "tasks": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        },
+        "squad": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        },
+        "files": {
+          "type": "array",
+          "example": [
+            "https://i.imgur.com/1.jpg"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-08-31T00:00:00.000Z"
+        },
+        "complete": {
+          "type": "boolean",
+          "example": false
+        },
+        "completedAt": {
+          "type": "string",
+          "example": "2021-08-31T00:00:00.000Z"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "client"
+      ]
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "1"
+        },
+        "description": {
+          "type": "string",
+          "example": "Descrição da tarefa 1"
+        },
+        "category": {
+          "type": "string",
+          "example": "Desenvolvimento"
+        },
+        "deadline": {
+          "type": "string",
+          "example": "2021-08-31T00:00:00.000Z"
+        },
+        "status": {
+          "type": "string",
+          "example": "Não iniciado"
+        },
+        "projectId": {
+          "type": "number",
+          "example": 1
+        },
+        "featuredImage": {
+          "type": "string",
+          "example": "https://i.imgur.com/1.jpg"
+        },
+        "files": {
+          "type": "array",
+          "example": [
+            "https://i.imgur.com/1.jpg"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-08-31T00:00:00.000Z"
+        },
+        "completedAt": {
+          "type": "string",
+          "example": "2021-08-31T00:00:00.000Z"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "category",
+        "projectId"
+      ]
+    }
+  }
+}

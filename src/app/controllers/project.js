@@ -265,13 +265,19 @@ router.put('/project/:projectId', [AuthMid, AuthAdmin], async (req, res) => {
                   description: 'Erro ao atualizar projeto.'
                 } */
               }
-              res.status(200).send(project)
-              /* #swagger.responses[200] = {
-                description: 'Projeto alterado com sucesso.'
-              } */
+              Project.findByIdAndUpdate(
+                req.params.projectId,
+                { name, description, client, deadline, tasks, squad },
+                { new: true }
+              ).then((project) => {
+                res.status(200).send({ project })
+                /* #swagger.responses[200] = {
+                  description: 'Projeto atualizado com sucesso.'
+                } */
+              })
             })
             .catch((error) => {
-              cconsole.error(error)
+              console.error(error)
               res.status(400).send({
                 error:
                   'Não foi possível atualizar seu projeto, verifique os dados e tente novamente.',
@@ -292,21 +298,14 @@ router.put('/project/:projectId', [AuthMid, AuthAdmin], async (req, res) => {
           } */
         })
     })
-    .then(() => {
-      Project.findByIdAndUpdate(
-        req.params.projectId,
-        { name, description, client, deadline, tasks, squad },
-        { new: true }
-      )
-    })
     .catch((error) => {
-      console.error('Erro ao atualizar o projeto no banco de dados.', error)
-      res.status(400).send({
+      console.error('Erro ao encontrar o projeto no banco de dados.', error)
+      res.status(404).send({
         error:
-          'Não foi possível atualizar seu projeto, verifique os dados e tente novamente.',
+          'Não foi possível encontrar seu projeto, verifique os dados e tente novamente.',
       })
-      /* #swagger.responses[400] = {
-        description: 'Erro ao atualizar projeto.'
+      /* #swagger.responses[404] = {
+        description: 'Erro ao encontrar projeto.'
       } */
     })
 })

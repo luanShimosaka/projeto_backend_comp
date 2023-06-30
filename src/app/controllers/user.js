@@ -11,6 +11,7 @@ import Project from '@/app/schemas/project'
 import AuthMid from '@/app/middlewares/auth'
 import AuthAdmin from '@/app/middlewares/admin'
 import Multer from '@/app/middlewares/multerTask'
+import MulterUser from '@/app/middlewares/multerUser'
 
 const router = new Router()
 
@@ -246,7 +247,7 @@ router.post('/user/reset-password', (req, res) => {
 
 router.post(
   '/user/userImage/:userId',
-  [AuthMid, Multer.single('userImage')],
+  [AuthMid, MulterUser.single('userImage')],
   (req, res) => {
     //#swagger.tags = ['User']
     //#swagger.description = 'Endpoint para adicionar uma imagem a um usuário'

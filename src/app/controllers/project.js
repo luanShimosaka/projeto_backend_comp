@@ -401,9 +401,9 @@ router.delete(
           }
         })
         Project.findByIdAndUpdate(projectId, { files: newFiles }, { new: true })
-          .then(() => {
+          .then((newProject) => {
             fs.unlinkSync(completePath)
-            res.status(200).send(project)
+            res.status(200).send(newProject)
             /* #swagger.responses[200] = {
               description: 'Arquivo deletado com sucesso.'
             } */
